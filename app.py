@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.title("📊 Dashboard Geospasial: Analisis Determinasi & Growth Omzet")
+st.title("Dashboard Geospasial: Analisis Determinasi & Growth Omzet")
 st.markdown("Visualisasi sebaran cabang berdasarkan berbagai metode segmentasi statistik.")
 
 # ==============================================================================
@@ -218,21 +218,21 @@ if df_clean is not None:
     # ==============================================================================
     # 6. RENDER INDUK PETA DI STREAMLIT
     # ==============================================================================
-    st.subheader("🗺️ Peta Distribusi Finansial & Geografis")
+    st.subheader("Peta Distribusi Finansial & Geografis")
     st_folium(m, width="100%", height=600, returned_objects=[])
 
     # ==============================================================================
     # 7. PREVIEW DATABASE (DENGAN FITUR SHOW/HIDE INTERAKTIF)
     # ==============================================================================
     st.markdown("---")
-    st.subheader("📋 Preview Dataset Master Terintegrasi")
+    st.subheader("Preview Dataset Master Terintegrasi")
     
     # Tombol Toggle Interaktif untuk Show/Hide Data Tabel
     show_preview = st.toggle("Tampilkan Preview Tabel Data", value=False)
 
     if show_preview:
         # Fitur pencarian interaktif di Streamlit
-        search_query = st.text_input("🔍 Cari berdasarkan Nama Cabang:", "")
+        search_query = st.text_input("Cari berdasarkan Nama Cabang:", "")
         if search_query:
             df_display = df_clean[df_clean['cabang'].str.contains(search_query, case=False, na=False)]
         else:
