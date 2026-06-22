@@ -1,7 +1,7 @@
 import pandas as pd
 import folium
 from folium.plugins import HeatMap, GroupedLayerControl
-import streamlit as str
+import streamlit as st
 from streamlit_folium import st_folium
 
 # ==============================================================================
@@ -17,24 +17,24 @@ st.title("📊 Dashboard Geospasial: Analisis Determinasi & Growth Omzet")
 st.markdown("Visualisasi sebaran cabang berdasarkan berbagai metode segmentasi statistik.")
 
 # ==============================================================================
-# 1. PENGAMBILAN DATA DARI GITHUB
+# 1. PENGAMBILAN DATA LOKAL (Repository GitHub yang Sama)
 # ==============================================================================
-# Ganti URL di bawah ini dengan URL raw GitHub Anda yang sebenarnya
-DATA_URL = "https://raw.githubusercontent.com/USERNAME_ANDA/REPOS_ANDA/main/df_persen_growth.csv"
+# Membaca langsung dari file CSV di direktori yang sama dengan app.py
+CSV_FILE_PATH = "df_persen_growth.csv"
 
 @st.cache_data
-def load_data(url):
+def load_data(file_path):
     try:
-        df = pd.read_csv(url)
-        # Handle string parsing or basic cleaning here if needed
+        df = pd.read_csv(file_path)
+        # Handle string parsing atau pembersihan dasar jika diperlukan
         if 'Persen Growth' in df.columns:
             df['Persen Growth'] = pd.to_numeric(df['Persen Growth'], errors='coerce').fillna(0)
         return df
     except Exception as e:
-        st.error(f"Gagal memuat data dari GitHub. Pastikan URL Raw benar. Error: {e}")
+        st.error(f"Gagal memuat file '{file_path}'. Pastikan file berada di folder yang sama dengan app.py. Error: {e}")
         return None
 
-df_clean = load_data(DATA_URL)
+df_clean = load_data(CSV_FILE_PATH)
 
 if df_clean is not None:
     # Dictionary warna global agar konsisten di semua metode
@@ -47,7 +47,7 @@ if df_clean is not None:
     # ==============================================================================
     # 2. INISIALISASI PETA FOLIUM (OPENSTREETMAP)
     # ==============================================================================
-    # Mengambil koordinat rata-rata dari data jika tersedia untuk auto-center
+    # Mengambil koordinat rata-rata dari data jika tersedia untuk auto-center otomatis
     lat_center = df_clean['latitude_cabang'].mean() if 'latitude_cabang' in df_clean.columns else -6.2088
     lon_center = df_clean['longitude_cabang'].mean() if 'longitude_cabang' in df_clean.columns else 106.8456
 
@@ -58,7 +58,7 @@ if df_clean is not None:
     if 'Growth' in df_clean.columns:
         heat_data = [[row['latitude_cabang'], row['longitude_cabang'], row['Growth']] for i, row in df_clean.iterrows()]
     else:
-        # Fallback jika kolom 'Growth' belum terbuat (menggunakan Persen Growth)
+        # Fallback menggunakan Persen Growth jika kolom Growth nominal tidak ada
         heat_data = [[row['latitude_cabang'], row['longitude_cabang'], row['Persen Growth']] for i, row in df_clean.iterrows()]
         
     HeatMap(heat_data, radius=15, blur=20, gradient={0.4: 'blue', 0.7: 'lime', 1: 'yellow'}).add_to(fg_heatmap)
@@ -105,7 +105,7 @@ if df_clean is not None:
         fg.add_to(m)
 
     # ==============================================================================
-    # 4. PLOTTING MARKER CABANG
+    # 4. PLOTTING MARKER CABANG KE FEATURE GROUP
     # ==============================================================================
     for i, row in df_clean.iterrows():
         popup_content = (
@@ -136,33 +136,38 @@ if df_clean is not None:
                 popup=folium.Popup(popup_content, max_width=250)
             )
 
-        # Distribusi ke layer masing-masing
+        # 1. Distribusi ke Layer StdDev
         val_std = row.get('Kategori_By_StdDev')
         if val_std == 'Sedang': buat_marker(val_std).add_to(fg_std_sedang)
         elif val_std == 'Tinggi': buat_marker(val_std).add_to(fg_std_tinggi)
 
+        # 2. Distribusi ke Layer Percentile
         val_pct = row.get('Kategori_By_Percentile')
         if val_pct == 'Rendah': buat_marker(val_pct).add_to(fg_pct_rendah)
         elif val_pct == 'Sedang': buat_marker(val_pct).add_to(fg_pct_sedang)
         elif val_pct == 'Tinggi': buat_marker(val_pct).add_to(fg_pct_tinggi)
 
+        # 3. Distribusi ke Layer Atasan (KPI)
         val_ats = row.get('Kategori_Atasan')
         if val_ats == 'Sangat Baik': buat_marker(val_ats).add_to(fg_ats_sangat_baik)
         elif val_ats == 'Baik': buat_marker(val_ats).add_to(fg_ats_baik)
         elif val_ats == 'Kurang Baik': buat_marker(val_ats).add_to(fg_ats_kurang_baik)
         elif val_ats == 'Jelek': buat_marker(val_ats).add_to(fg_ats_jelek)
 
+        # 4. Distribusi ke Layer Hibrida
         val_hib = row.get('Kategori_Hibrida')
         if val_hib == 'Ekstrem (Superstar)': buat_marker(val_hib).add_to(fg_hib_super)
         elif val_hib == 'Rendah': buat_marker(val_hib).add_to(fg_hib_rendah)
         elif val_hib == 'Sedang': buat_marker(val_hib).add_to(fg_hib_sedang)
         elif val_hib == 'Tinggi': buat_marker(val_hib).add_to(fg_hib_tinggi)
 
+        # 5. Distribusi ke Layer Z-Score
         val_z = row.get('Kategori_ZScore')
         if val_z == 'Extreme': buat_marker(val_z).add_to(fg_z_extreme)
         elif val_z == 'Baik': buat_marker(val_z).add_to(fg_z_baik)
         elif val_z == 'Sedang': buat_marker(val_z).add_to(fg_z_sedang)
 
+        # 6. Distribusi ke Layer IQR
         val_iqr = row.get('Kategori_IQR')
         if val_iqr == 'Extreme High': buat_marker(val_iqr).add_to(fg_iqr_exhigh)
         elif val_iqr == 'Rendah': buat_marker(val_iqr).add_to(fg_iqr_rendah)
@@ -170,7 +175,7 @@ if df_clean is not None:
         elif val_iqr == 'Tinggi': buat_marker(val_iqr).add_to(fg_iqr_tinggi)
 
     # ==============================================================================
-    # 5. CONFIG LAYERS MENU
+    # 5. CONFIG LAYERS MENU (KANAN ATAS)
     # ==============================================================================
     grouped_overlays = {
         "Metode Statistik Dasar": [fg_heatmap],
@@ -189,7 +194,7 @@ if df_clean is not None:
         position='topright'
     ).add_to(m)
 
-    # Legenda HTML (Disesuaikan posisinya agar presisi di layout web)
+    # Kotak Legenda Warna Statis HTML
     legend_html = '''
          <div style="position: fixed;
                      bottom: 50px; left: 70px; width: 230px; height: auto;
@@ -211,10 +216,9 @@ if df_clean is not None:
     m.get_root().html.add_child(folium.Element(legend_html))
 
     # ==============================================================================
-    # 6. RENDER PETA DI STREAMLIT
+    # 6. RENDER INDUK PETA DI STREAMLIT
     # ==============================================================================
     st.subheader("🗺️ Peta Distribusi Finansial & Geografis")
-    # Menggunakan st_folium untuk render peta secara penuh di container streamlit
     st_folium(m, width="100%", height=600, returned_objects=[])
 
     # ==============================================================================
@@ -223,7 +227,7 @@ if df_clean is not None:
     st.markdown("---")
     st.subheader("📋 Preview Dataset Master Terintegrasi")
     
-    # Filter Interaktif Sederhana di Streamlit
+    # Fitur pencarian interaktif di Streamlit
     search_query = st.text_input("🔍 Cari berdasarkan Nama Cabang:", "")
     if search_query:
         df_display = df_clean[df_clean['cabang'].str.contains(search_query, case=False, na=False)]
@@ -231,6 +235,8 @@ if df_clean is not None:
         df_display = df_clean
 
     st.write(f"Menampilkan {len(df_display)} dari total {len(df_clean)} data cabang.")
+    
+    # Render tabel dengan formatting nominal Rupiah otomatis agar cantik dilihat manajemen
     st.dataframe(
         df_display, 
         use_container_width=True,
