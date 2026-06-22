@@ -256,17 +256,17 @@ if df_clean is not None:
     with tab1:
         st.markdown("#### SUMMARY METODE: Standar Deviasi")
         df_std = pd.DataFrame([
-            {"Nama Kategori": "Sedang", "Kriteria Batasan": "-42.17% s/d 345.94%", "Jumlah Cabang": 1125, "Persentase (%)": "97.23%"},
-            {"Nama Kategori": "Tinggi", "Kriteria Batasan": "355.18% s/d 13007.41%", "Jumlah Cabang": 32, "Persentase (%)": "2.77%"}
+            {"Nama Kategori": "Tinggi", "Kriteria Batasan": "355.18% s/d 13007.41%", "Jumlah Cabang": 32, "Persentase (%)": "2.77%"},
+            {"Nama Kategori": "Sedang", "Kriteria Batasan": "-42.17% s/d 345.94%", "Jumlah Cabang": 1125, "Persentase (%)": "97.23%"}
         ])
         st.table(df_std)
 
     with tab2:
         st.markdown("#### SUMMARY METODE: Percentile")
         df_pct = pd.DataFrame([
+            {"Nama Kategori": "Tinggi", "Kriteria Batasan": "72.7% s/d 13007.41%", "Jumlah Cabang": 289, "Persentase (%)": "24.98%"},
             {"Nama Kategori": "Sedang", "Kriteria Batasan": "3.47% s/d 71.99%", "Jumlah Cabang": 578, "Persentase (%)": "49.96%"},
-            {"Nama Kategori": "Rendah", "Kriteria Batasan": "-42.17% s/d 3.42%", "Jumlah Cabang": 290, "Persentase (%)": "25.06%"},
-            {"Nama Kategori": "Tinggi", "Kriteria Batasan": "72.7% s/d 13007.41%", "Jumlah Cabang": 289, "Persentase (%)": "24.98%"}
+            {"Nama Kategori": "Rendah", "Kriteria Batasan": "-42.17% s/d 3.42%", "Jumlah Cabang": 290, "Persentase (%)": "25.06%"}
         ])
         st.table(df_pct)
 
@@ -283,28 +283,28 @@ if df_clean is not None:
     with tab4:
         st.markdown("#### SUMMARY METODE: Hibrida")
         df_hib = pd.DataFrame([
-            {"Nama Kategori": "Sedang", "Kriteria Batasan": "10.34% s/d 48.14%", "Jumlah Cabang": 381, "Persentase (%)": "32.93%"},
+            {"Nama Kategori": "Ekstrem (Superstar)", "Kriteria Batasan": "1014.98% s/d 13007.41%", "Jumlah Cabang": 16, "Persentase (%)": "1.38%"},
             {"Nama Kategori": "Tinggi", "Kriteria Batasan": "48.32% s/d 910.06%", "Jumlah Cabang": 380, "Persentase (%)": "32.84%"},
+            {"Nama Kategori": "Sedang", "Kriteria Batasan": "10.34% s/d 48.14%", "Jumlah Cabang": 381, "Persentase (%)": "32.93%"},
             {"Nama Kategori": "Rendah", "Kriteria Batasan": "-42.17% s/d 10.26%", "Jumlah Cabang": 380, "Persentase (%)": "32.84%"},
-            {"Nama Kategori": "Ekstrem (Superstar)", "Kriteria Batasan": "1014.98% s/d 13007.41%", "Jumlah Cabang": 16, "Persentase (%)": "1.38%"}
         ])
         st.table(df_hib)
 
     with tab5:
         st.markdown("#### SUMMARY METODE: Z-Score")
         df_z = pd.DataFrame([
-            {"Nama Kategori": "Sedang", "Kriteria Batasan": "-42.17% s/d 345.94%", "Jumlah Cabang": 1125, "Persentase (%)": "97.23%"},
+            {"Nama Kategori": "Extreme", "Kriteria Batasan": "1690.89% s/d 13007.41%", "Jumlah Cabang": 9, "Persentase (%)": "0.78%"},
             {"Nama Kategori": "Baik", "Kriteria Batasan": "355.18% s/d 1577.42%", "Jumlah Cabang": 23, "Persentase (%)": "1.99%"},
-            {"Nama Kategori": "Extreme", "Kriteria Batasan": "1690.89% s/d 13007.41%", "Jumlah Cabang": 9, "Persentase (%)": "0.78%"}
+            {"Nama Kategori": "Sedang", "Kriteria Batasan": "-42.17% s/d 345.94%", "Jumlah Cabang": 1125, "Persentase (%)": "97.23%"}
         ])
         st.table(df_z)
 
     with tab6:
         st.markdown("#### SUMMARY METODE: IQR (Interquartile Range)")
         df_iqr = pd.DataFrame([
-            {"Nama Kategori": "Sedang", "Kriteria Batasan": "3.47% s/d 71.36%", "Jumlah Cabang": 577, "Persentase (%)": "49.87%"},
-            {"Nama Kategori": "Rendah", "Kriteria Batasan": "-42.17% s/d 3.42%", "Jumlah Cabang": 290, "Persentase (%)": "25.06%"},
+            {"Nama Kategori": "Extreme High", "Kriteria Batasan": "184.55% s/d 13007.41%", "Jumlah Cabang": 87, "Persentase (%)": "7.52%"},
             {"Nama Kategori": "Tinggi", "Kriteria Batasan": "71.99% s/d 183.28%", "Jumlah Cabang": 203, "Persentase (%)": "17.55%"},
-            {"Nama Kategori": "Extreme High", "Kriteria Batasan": "184.55% s/d 13007.41%", "Jumlah Cabang": 87, "Persentase (%)": "7.52%"}
+            {"Nama Kategori": "Sedang", "Kriteria Batasan": "3.47% s/d 71.36%", "Jumlah Cabang": 577, "Persentase (%)": "49.87%"},
+            {"Nama Kategori": "Rendah", "Kriteria Batasan": "-42.17% s/d 3.42%", "Jumlah Cabang": 290, "Persentase (%)": "25.06%"}
         ])
         st.table(df_iqr)
