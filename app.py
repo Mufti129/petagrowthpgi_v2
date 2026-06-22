@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.title("📊 Dashboard Geospasial: Analisis Determinasi & Growth Omzet")
+st.title("Dashboard Geospasial: Analisis Determinasi & Growth Omzet")
 st.markdown("Visualisasi sebaran cabang berdasarkan berbagai metode segmentasi statistik.")
 
 # ==============================================================================
@@ -207,19 +207,19 @@ if df_clean is not None:
     # ==============================================================================
     # 6. RENDER INDUK PETA DI STREAMLIT
     # ==============================================================================
-    st.subheader("🗺️ Peta Distribusi Finansial & Geografis")
+    st.subheader("Peta Distribusi Finansial & Geografis")
     st_folium(m, width="100%", height=600, returned_objects=[])
 
     # ==============================================================================
     # 7. PREVIEW DATABASE (DENGAN FITUR SHOW/HIDE INTERAKTIF)
     # ==============================================================================
     st.markdown("---")
-    st.subheader("📋 Preview Dataset Master Terintegrasi")
+    st.subheader("Preview Dataset Master Terintegrasi")
     
     show_preview = st.toggle("Tampilkan Preview Tabel Data", value=False)
 
     if show_preview:
-        search_query = st.text_input("🔍 Cari berdasarkan Nama Cabang:", "")
+        search_query = st.text_input("Cari berdasarkan Nama Cabang:", "")
         if search_query:
             df_display = df_clean[df_clean['cabang'].str.contains(search_query, case=False, na=False)]
         else:
@@ -237,13 +237,13 @@ if df_clean is not None:
             }
         )
     else:
-        st.info("💡 Klik tombol toggle di atas jika ingin menampilkan preview tabel data cabang.")
+        st.info("Klik tombol toggle di atas jika ingin menampilkan preview tabel data cabang.")
 
     # ==============================================================================
     # 8. SUMMARY STATISTIK METODE SEGMENTASI
     # ==============================================================================
     st.markdown("---")
-    st.header("📈 Summary Distribusi & Batasan Metode")
+    st.header("Summary Distribusi & Batasan Metode")
     
     # Indikator Total Populasi Utama
     st.subheader("=== TOTAL POPULASI DATA: 1157 CABANG ===")
@@ -254,7 +254,7 @@ if df_clean is not None:
     ])
 
     with tab1:
-        st.markdown("#### 📌 SUMMARY METODE: Standar Deviasi")
+        st.markdown("#### SUMMARY METODE: Standar Deviasi")
         df_std = pd.DataFrame([
             {"Nama Kategori": "Sedang", "Kriteria Batasan": "-42.17% s/d 345.94%", "Jumlah Cabang": 1125, "Persentase (%)": "97.23%"},
             {"Nama Kategori": "Tinggi", "Kriteria Batasan": "355.18% s/d 13007.41%", "Jumlah Cabang": 32, "Persentase (%)": "2.77%"}
@@ -262,7 +262,7 @@ if df_clean is not None:
         st.table(df_std)
 
     with tab2:
-        st.markdown("#### 📌 SUMMARY METODE: Percentile")
+        st.markdown("#### SUMMARY METODE: Percentile")
         df_pct = pd.DataFrame([
             {"Nama Kategori": "Sedang", "Kriteria Batasan": "3.47% s/d 71.99%", "Jumlah Cabang": 578, "Persentase (%)": "49.96%"},
             {"Nama Kategori": "Rendah", "Kriteria Batasan": "-42.17% s/d 3.42%", "Jumlah Cabang": 290, "Persentase (%)": "25.06%"},
@@ -271,7 +271,7 @@ if df_clean is not None:
         st.table(df_pct)
 
     with tab3:
-        st.markdown("#### 📌 SUMMARY METODE: Atasan (KPI)")
+        st.markdown("#### SUMMARY METODE: Atasan (KPI)")
         df_ats = pd.DataFrame([
             {"Nama Kategori": "Sangat Baik", "Kriteria Batasan": "35.2% s/d 13007.41%", "Jumlah Cabang": 505, "Persentase (%)": "43.65%"},
             {"Nama Kategori": "Baik", "Kriteria Batasan": "0.0% s/d 34.88%", "Jumlah Cabang": 479, "Persentase (%)": "41.40%"},
@@ -281,7 +281,7 @@ if df_clean is not None:
         st.table(df_ats)
 
     with tab4:
-        st.markdown("#### 📌 SUMMARY METODE: Hibrida")
+        st.markdown("#### SUMMARY METODE: Hibrida")
         df_hib = pd.DataFrame([
             {"Nama Kategori": "Sedang", "Kriteria Batasan": "10.34% s/d 48.14%", "Jumlah Cabang": 381, "Persentase (%)": "32.93%"},
             {"Nama Kategori": "Tinggi", "Kriteria Batasan": "48.32% s/d 910.06%", "Jumlah Cabang": 380, "Persentase (%)": "32.84%"},
@@ -291,7 +291,7 @@ if df_clean is not None:
         st.table(df_hib)
 
     with tab5:
-        st.markdown("#### 📌 SUMMARY METODE: Z-Score")
+        st.markdown("#### SUMMARY METODE: Z-Score")
         df_z = pd.DataFrame([
             {"Nama Kategori": "Sedang", "Kriteria Batasan": "-42.17% s/d 345.94%", "Jumlah Cabang": 1125, "Persentase (%)": "97.23%"},
             {"Nama Kategori": "Baik", "Kriteria Batasan": "355.18% s/d 1577.42%", "Jumlah Cabang": 23, "Persentase (%)": "1.99%"},
@@ -300,7 +300,7 @@ if df_clean is not None:
         st.table(df_z)
 
     with tab6:
-        st.markdown("#### 📌 SUMMARY METODE: IQR (Interquartile Range)")
+        st.markdown("#### SUMMARY METODE: IQR (Interquartile Range)")
         df_iqr = pd.DataFrame([
             {"Nama Kategori": "Sedang", "Kriteria Batasan": "3.47% s/d 71.36%", "Jumlah Cabang": 577, "Persentase (%)": "49.87%"},
             {"Nama Kategori": "Rendah", "Kriteria Batasan": "-42.17% s/d 3.42%", "Jumlah Cabang": 290, "Persentase (%)": "25.06%"},
