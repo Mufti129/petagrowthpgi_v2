@@ -190,7 +190,7 @@ if df_clean is not None:
     GroupedLayerControl(
         grouped_overlays,
         exclusive_groups=False,  
-        collapsed=False,
+        collapsed=True,
         position='topright'
     ).add_to(m)
 
@@ -218,23 +218,37 @@ if df_clean is not None:
     # ==============================================================================
     # 6. RENDER INDUK PETA DI STREAMLIT
     # ==============================================================================
-    st.subheader("🗺️ Peta Distribusi Finansial & Geografis")
-    st_folium(m, width="100%", height=600, returned_objects=[])
-
     # ==============================================================================
-    # 7. PREVIEW DATABASE (DI BAWAH PETA)
+    # 7. PREVIEW DATABASE (DENGAN FITUR SHOW/HIDE INTERAKTIF)
     # ==============================================================================
     st.markdown("---")
     st.subheader("📋 Preview Dataset Master Terintegrasi")
     
-    # Fitur pencarian interaktif di Streamlit
-    search_query = st.text_input("🔍 Cari berdasarkan Nama Cabang:", "")
-    if search_query:
-        df_display = df_clean[df_clean['cabang'].str.contains(search_query, case=False, na=False)]
-    else:
-        df_display = df_clean
+    # Tombol Toggle/Checkbox untuk Show/Hide Data
+    show_preview = st.toggle("Tampilkan Preview Tabel Data", value=False)
 
-    st.write(f"Menampilkan {len(df_display)} dari total {len(df_clean)} data cabang.")
+    if show_preview:
+        # Fitur pencarian interaktif di Streamlit
+        search_query = st.text_input("🔍 Cari berdasarkan Nama Cabang:", "")
+        if search_query:
+            df_display = df_clean[df_clean['cabang'].str.contains(search_query, case=False, na=False)]
+        else:
+            df_display = df_clean
+
+        st.write(f"Menampilkan {len(df_display)} dari total {len(df_clean)} data cabang.")
+        
+        # Render tabel
+        st.dataframe(
+            df_display, 
+            use_container_width=True,
+            column_config={
+                "Omset Jan25": st.column_config.NumberColumn(format="Rp %',d"),
+                "Omset Mei26": st.column_config.NumberColumn(format="Rp %',d"),
+                "Persen Growth": st.column_config.NumberColumn(format="%.2f%%"),
+            }
+        )
+    else:
+        st.info("💡 Klik tombol *toggle* di atas untuk memunculkan atau menyembunyikan preview data.")
     
     # Render tabel dengan formatting nominal Rupiah otomatis agar cantik dilihat manajemen
     st.dataframe(
