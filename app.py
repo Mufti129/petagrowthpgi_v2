@@ -175,7 +175,7 @@ if df_clean is not None:
         elif val_iqr == 'Tinggi': buat_marker(val_iqr).add_to(fg_iqr_tinggi)
 
     # ==============================================================================
-    # 5. CONFIG LAYERS MENU (KANAN ATAS)
+    # 5. CONFIG LAYERS MENU (KANAN ATAS - COLLAPSED MODE)
     # ==============================================================================
     grouped_overlays = {
         "Metode Statistik Dasar": [fg_heatmap],
@@ -190,7 +190,7 @@ if df_clean is not None:
     GroupedLayerControl(
         grouped_overlays,
         exclusive_groups=False,  
-        collapsed=True,
+        collapsed=True,          # Mengubah ke True agar menu layer menjadi ikon ringkas
         position='topright'
     ).add_to(m)
 
@@ -218,13 +218,16 @@ if df_clean is not None:
     # ==============================================================================
     # 6. RENDER INDUK PETA DI STREAMLIT
     # ==============================================================================
+    st.subheader("🗺️ Peta Distribusi Finansial & Geografis")
+    st_folium(m, width="100%", height=600, returned_objects=[])
+
     # ==============================================================================
     # 7. PREVIEW DATABASE (DENGAN FITUR SHOW/HIDE INTERAKTIF)
     # ==============================================================================
     st.markdown("---")
     st.subheader("📋 Preview Dataset Master Terintegrasi")
     
-    # Tombol Toggle/Checkbox untuk Show/Hide Data
+    # Tombol Toggle Interaktif untuk Show/Hide Data Tabel
     show_preview = st.toggle("Tampilkan Preview Tabel Data", value=False)
 
     if show_preview:
@@ -237,7 +240,7 @@ if df_clean is not None:
 
         st.write(f"Menampilkan {len(df_display)} dari total {len(df_clean)} data cabang.")
         
-        # Render tabel
+        # Render tabel dengan formatting nominal Rupiah & persen otomatis
         st.dataframe(
             df_display, 
             use_container_width=True,
@@ -248,15 +251,4 @@ if df_clean is not None:
             }
         )
     else:
-        st.info("💡 Klik tombol *toggle* di atas untuk memunculkan atau menyembunyikan preview data.")
-    
-    # Render tabel dengan formatting nominal Rupiah otomatis agar cantik dilihat manajemen
-    st.dataframe(
-        df_display, 
-        use_container_width=True,
-        column_config={
-            "Omset Jan25": st.column_config.NumberColumn(format="Rp %',d"),
-            "Omset Mei26": st.column_config.NumberColumn(format="Rp %',d"),
-            "Persen Growth": st.column_config.NumberColumn(format="%.2f%%"),
-        }
-    )
+        st.info("💡 Klik tombol toggle di atas jika ingin menampilkan preview tabel data cabang.")
