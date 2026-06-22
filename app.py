@@ -243,10 +243,10 @@ if df_clean is not None:
     # 8. SUMMARY STATISTIK METODE SEGMENTASI
     # ==============================================================================
     st.markdown("---")
-    st.header("Summary Distribusi & Batasan Metode")
+    st.header("Summary Distribusi")
     
     # Indikator Total Populasi Utama
-    st.subheader("=== TOTAL POPULASI DATA: 1157 CABANG ===")
+    st.subheader("TOTAL POPULASI DATA: 1157 CABANG")
 
     # Membuat Komponen Tab di Streamlit agar Tampilan Ringkas & Profesional
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
