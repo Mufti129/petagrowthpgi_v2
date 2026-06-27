@@ -19,7 +19,7 @@ st.markdown("Visualisasi sebaran cabang berdasarkan berbagai metode segmentasi s
 # ==============================================================================
 # 1. PENGAMBILAN DATA LOKAL (Repository GitHub yang Sama)
 # ==============================================================================
-CSV_FILE_PATH = "df_persen_growth.csv"
+CSV_FILE_PATH = "df_dummy.csv"
 
 @st.cache_data
 def load_data(file_path):
